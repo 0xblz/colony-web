@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>{{ page.title }} - {{ page.description }}</title>
+    <meta name="description" content="{% if page.description %}{{ page.description }}{% endif %}">
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" href="{{ site.baseurl }}/assets/images/logo.png" type="image/png">
+</head>
+<body>
+    {{ content }}
+    {% include _links.html %}
+    
+    {% if page.js == true %}
+        <script src="{{ site.baseurl }}/assets/js/script.js"></script>
+    {% endif %}
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-355V4GHGSF"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-355V4GHGSF');
+    </script>
+</body>
+</html> 

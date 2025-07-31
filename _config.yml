@@ -1,0 +1,23 @@
+# Site settings
+title: COLONY.COMPUTER
+description: LOADING...
+url: "https://colony.computer"
+baseurl: ""
+
+# Build settings
+markdown: kramdown
+permalink: default
+exclude: [README.md, Gemfile, Gemfile.lock]
+
+# Collections
+collections:
+  projects:
+    output: true
+    permalink: /projects/:path/
+  experiences:
+    output: false
+
+# Sass/SCSS
+sass:
+  sass_dir: _sass
+  style: compressed 
