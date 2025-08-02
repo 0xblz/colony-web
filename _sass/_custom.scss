@@ -183,7 +183,6 @@ h1 {
     opacity: 1;
     transition: all 0.3s ease;
     max-height: 3rem;
-    overflow: hidden;
     
     &.hiding {
         margin-top: 0;
@@ -251,8 +250,8 @@ h1 {
 
 .demo-label {
     display: none;
-    font-size: 0.8rem;
-    font-weight: 400;
+    font-size: 0.7rem;
+    font-weight: 700;
     color: var(--secondary-color);
     text-transform: uppercase;
     letter-spacing: 1px;
