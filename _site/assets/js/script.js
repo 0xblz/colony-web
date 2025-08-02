@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 // Play welcome sound for human verification success
-                if (currentState.text === 'Welcome... Demo coming soon.') {
+                if (currentState.text === 'Welcome! Demo coming soon.') {
                     if (isIOS()) {
                         unlockAudio(welcomeAudio).then(() => {
                             welcomeAudio.currentTime = 0;
