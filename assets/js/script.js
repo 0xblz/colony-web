@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     ];
     
     // Success state for when human verification passes
-    const successState = { text: 'Welcome! Demo coming soon.', icon: 'fa-solid fa-star', duration: 6000, color: 'var(--tertiary-color)' };
+    const successState = { text: 'You passed, but there is nothing here.', icon: 'fa-solid fa-star', duration: 6000, color: 'var(--tertiary-color)' };
     
     let currentStateIndex = 0;
     let timeoutId;
@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const successAudio = new Audio('assets/audio/success.mp3');
     const glitchAudio = new Audio('assets/audio/glitch.mp3');
     const welcomeAudio = new Audio('assets/audio/welcome.mp3');
+    const clickAudio = new Audio('assets/audio/click.mp3');
     
     // Set audio properties
     startupAudio.volume = 0.5;
@@ -71,6 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
     successAudio.volume = 0.3;
     glitchAudio.volume = 0.4;
     welcomeAudio.volume = 0.4;
+    clickAudio.volume = 0.2;
     
     // Preload audio files and add iOS-specific handling
     startupAudio.preload = 'auto';
@@ -78,6 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
     successAudio.preload = 'auto';
     glitchAudio.preload = 'auto';
     welcomeAudio.preload = 'auto';
+    clickAudio.preload = 'auto';
     
     // Load audio files
     startupAudio.load();
@@ -85,6 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
     successAudio.load();
     glitchAudio.load();
     welcomeAudio.load();
+    clickAudio.load();
     
     // Demo mode toggle listener
     const demoToggle = document.getElementById('demo-toggle');
@@ -339,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 
                 // Play welcome sound for human verification success
-                if (currentState.text === 'Welcome... Democoming soon.') {
+                if (currentState.text === 'You passed, but there is nothing here.') {
                     if (isIOS()) {
                         unlockAudio(welcomeAudio).then(() => {
                             welcomeAudio.currentTime = 0;
@@ -382,6 +386,52 @@ document.addEventListener('DOMContentLoaded', function() {
             timeoutId = setTimeout(updateStatus, duration);
         }
     }
+    
+    // Global click handler for click sound on clickable elements only
+    document.addEventListener('click', function(event) {
+        const element = event.target;
+        
+        // Check if the element is clickable
+        const isClickable = (
+            // Standard clickable elements
+            element.tagName === 'BUTTON' ||
+            element.tagName === 'A' ||
+            element.tagName === 'INPUT' ||
+            element.tagName === 'SELECT' ||
+            element.tagName === 'TEXTAREA' ||
+            // Elements with click handlers or specific roles
+            element.onclick ||
+            element.getAttribute('role') === 'button' ||
+            element.getAttribute('role') === 'link' ||
+            // Elements with pointer cursor (commonly clickable)
+            window.getComputedStyle(element).cursor === 'pointer' ||
+            // Elements that are part of our interactive components
+            element.closest('.status-container') ||
+            element.closest('.toggle') ||
+            element.closest('label')
+        );
+        
+        // Only play sound if element is clickable
+        if (isClickable) {
+            // Handle iOS audio unlock for click sound
+            if (isIOS()) {
+                unlockAudio(clickAudio).then(() => {
+                    clickAudio.currentTime = 0;
+                    clickAudio.play().catch(error => {
+                        console.log('Click audio could not be played:', error);
+                    });
+                });
+            } else {
+                // Reset the audio to start from beginning
+                clickAudio.currentTime = 0;
+                
+                // Play the click sound
+                clickAudio.play().catch(error => {
+                    console.log('Click audio could not be played:', error);
+                });
+            }
+        }
+    });
     
     // Initialize with first state
     updateStatus();
